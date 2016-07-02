@@ -4,8 +4,9 @@
 class Client {
   
 public:
-  virtual int8_t connect(const char *host, uint16_t port) = 0;
-  
+  virtual int8_t connect(const char *host, const char *port) = 0;
+  //Added by Simfony 
+  virtual int8_t connect(const char *host, const char *port, char *APN, char *APN_USER, char *APN_PASS,  char *PIN) = 0;
   virtual int available() = 0;
   virtual uint8_t connected();
   

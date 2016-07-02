@@ -8,12 +8,9 @@
  *  to help people write their own code easily and make it more
  *  readable.
  *
- *  Version:		1.0
+ *  Version:		1.1
  *
- *  Design:		Glaros Anastasios (glrs)
- *
- *  Implementation:	Glaros Anastasios (glrs)
- *
+ *  Modified by Simfony
  */
 
 
@@ -38,7 +35,8 @@ public:
   void addKeyValuePair(char *, char *);
   void addKeyValuePair(char *, int);
   void addKeyValuePair(char *, boolean);
-
+  void addKeyValuePairEmbedded(char *, char *);
+  
   void endJsonObject(void);
   
   boolean sendMessage(WaspMQTTClient);

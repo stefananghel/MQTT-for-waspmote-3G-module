@@ -8,12 +8,9 @@
  *  to help people write their own code easily and make it more
  *  readable.
  *
- *  Version:		1.0
+ *  Version:		1.1
  *
- *  Design:		Glaros Anastasios (glrs)
- *
- *  Implementation:	Glaros Anastasios (glrs)
- *
+ *  Modified by Simfony
  */
 
 
@@ -81,6 +78,19 @@ void MQTTUtils::addKeyValuePair(char* key, char *value) {
   sprintf(json, "%s%s", json, "\":\"");
   sprintf(json, "%s%s", json, value);
   sprintf(json, "%s%s", json, "\"");
+
+  //USB.println(json);
+}
+
+void MQTTUtils::addKeyValuePairEmbedded(char* key, char *value) {
+  if(strlen(json) > 1) {
+    sprintf(json, "%s%s", json, ",");
+  }
+  sprintf(json, "%s%s", json, "\"");
+  sprintf(json, "%s%s", json, key);
+  sprintf(json, "%s%s", json, "\":");
+  sprintf(json, "%s%s", json, value);
+  //sprintf(json, "%s%s", json, "\"");
 
   //USB.println(json);
 }

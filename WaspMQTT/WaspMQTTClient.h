@@ -4,17 +4,11 @@
  *  WaspMQTTClient.h
  *
  *  The WaspMQTTClient library implements the MQTT protocol to work
- *  with the waspmote's 3G module. There were no such implementation
- *  for waspmote, although the MQTT protocol is a very good solution,
- *  especially for remote, low energy cost applications with unreliable
- *  network connection.
+ *  with the waspmote's 3G module. 
  *
  *  Version:		1.0
  *
- *  Design:		Glaros Anastasios (glrs)
- *
- *  Implementation:	Glaros Anastasios (glrs)
- *
+ *  Modified by Simfony
  */
 
 
@@ -37,7 +31,7 @@
 
 
 /** DEFINE KEEP ALIVE VALUE **/
-#define MQTT_KEEPALIVE    120    // keepAlive interval in Seconds
+#define MQTT_KEEPALIVE    600    // keepAlive interval in Seconds ( initial was 120)
 
 
 /** DEFINED VALUES - MESSAGE TYPE **/
@@ -72,7 +66,7 @@ private:
   Client* _client;
   uint8_t packetBuffer[MQTT_MAX_PACKET_SIZE];
   char *ip;
-  uint16_t port;
+  char* port;
   uint16_t nextMsgId;
   char* host;
   char pubTopic[MQTT_MAX_PACKET_SIZE/2];
@@ -87,14 +81,20 @@ private:
   uint16_t writeString(char* string, uint8_t* buf, uint16_t pos);
   boolean write(uint8_t header, uint8_t* buffer, uint16_t length);
   uint16_t readPacket();
+  //Added by Simfony
+  char* APN;
+  char* APN_USER;
+  char* APN_PASS;
+  char* PIN;
   
 public:
 
   void test();
   
   WaspMQTTClient();
-  WaspMQTTClient(char*, uint16_t, void(*)(char*, uint8_t*, unsigned int), Client& client);
-  
+  WaspMQTTClient(char*, char*, void(*)(char*, uint8_t*, unsigned int), Client& client);
+  //Added by Simfony
+  WaspMQTTClient(char*, char*, void(*)(char*, uint8_t*, unsigned int), Client& client, char*, char*, char*, char*);
   boolean connect(char *, char *, char *);
   boolean connect(char *, char *, uint8_t, uint8_t, char *);
   
@@ -117,7 +117,9 @@ class Wasp3GMQTTClient : public Client {
 public:
   Wasp3GMQTTClient();
 
-  int8_t connect(const char *host, uint16_t port);
+  int8_t connect(const char *host,const char* port);
+  //Add by Simfony
+  int8_t connect(const char *host, const char *port, char *APN, char *APN_USER, char *APN_PASS, char *PIN);
   
   size_t write(uint8_t) {size_t s; return s;}    // Not implemented
   boolean write(uint8_t *buf, uint16_t size);
@@ -128,9 +130,14 @@ public:
   
   void stop();
   uint8_t connected();
+  //Added by Simfony
+  void setConnected(uint8_t isConnectedValue);
   
+  //Move to public to access it from main loop (Simfony)
+  //uint8_t* isConnectedAddress;
 private:
   uint8_t isConnected;
+  int pinRetries;
 };
 
 int parse(const char*);
